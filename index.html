@@ -33,7 +33,7 @@ path {
 // Set the dimensions of the canvas / graph
 var margin = {top: 30, right: 20, bottom: 30, left: 50},
     width = 600 - margin.left - margin.right,
-    height = 270 - margin.top - margin.bottom;
+    height = 370 - margin.top - margin.bottom;
 
 // Parse the date / time
 var parseDate = d3.time.format("%d-%b-%y").parse;
@@ -72,8 +72,8 @@ var svg = d3.select("body")
               "translate(" + margin.left + "," + margin.top + ")");
 
 // Get the data
-//d3.csv("data.csv", function(error, data) {
-d3.json("php/getData.php", function(error, data) {
+d3.csv("data.csv", function(error, data) {
+//d3.json("php/getData.php", function(error, data) {
     data.forEach(function(d) {
         d.date = parseDate(d.date);
         d.close = +d.close;
@@ -81,7 +81,7 @@ d3.json("php/getData.php", function(error, data) {
 
     // Scale the range of the data
     x.domain(d3.extent(data, function(d) { return d.date; }));
-    y.domain([0, d3.max(data, function(d) { return d.close; })]);
+    y.domain([d3.min(data, function(d) { return d.close; }), d3.max(data, function(d) { return d.close; })]);
 
     //shading between the curve and the x-axis:
     svg.append("path")
