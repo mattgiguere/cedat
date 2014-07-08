@@ -1,11 +1,14 @@
 <?php
-    $afspath = $_SERVER["AeroFSdir"];
+    //$afspath = $_SERVER["AeroFSdir"];
+    $afspath = "/mg/AeroFS/";
+    //echo $afspath;
     $credsfile = $afspath . '.credentials/SQL/csaye';
     $file = file_get_contents($credsfile);
+    //echo "hello";
     //echo "The host is: ";
     //echo $file[0];
-    echo $file;
-
+    //echo $file;
+    
     $creds = explode("\n", $file);
     //echo $creds[0];
     //echo "\n ";
@@ -26,18 +29,18 @@
     echo "password is: ";    
     echo $password;
     echo "\n";
-    */
+    */  
 
 
     $server = mysql_connect($host, $username, $password);
-    echo $server;
-    echo "\n";
+    //echo $server;
+    //echo "\n";
     $connection = mysql_select_db($database, $server);
-    echo $connection;
-    echo "\n";
+    //echo $connection;
+    //echo "\n";
 
     $myquery = "
-    SELECT v.jd, v.mnvel FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='10700';
+    SELECT o.date_obs as date, v.mnvel as close FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='10700';
     ";
     /*
     $myquery = "
@@ -62,5 +65,6 @@
     echo json_encode($data);     
      
     mysql_close($server);
+    //*/
 
 ?>
