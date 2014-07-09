@@ -1,6 +1,7 @@
 <?php
     //$afspath = $_SERVER["AeroFSdir"];
-    $afspath = "/mg/AeroFS/";
+    //$afspath = "/mg/AeroFS/";
+    $afspath = "/Users/matt/AeroFS/";
     //echo $afspath;
     $credsfile = $afspath . '.credentials/SQL/csaye';
     $file = file_get_contents($credsfile);
