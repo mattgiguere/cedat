@@ -1,7 +1,7 @@
 <?php
     //$afspath = $_SERVER["AeroFSdir"];
-    //$afspath = "/mg/AeroFS/";
-    $afspath = "/Users/matt/AeroFS/";
+    $afspath = "/mg/AeroFS/";
+    //$afspath = "/Users/matt/AeroFS/";
     //echo $afspath;
     $credsfile = $afspath . '.credentials/SQL/csaye';
     $file = file_get_contents($credsfile);
@@ -41,7 +41,7 @@
     //echo "\n";
 
     $myquery = "
-    SELECT o.date_obs as date, v.mnvel as close FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='10700';
+    SELECT o.date_obs as date, v.mnvel as close FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='10700' AND v.mnvel IS NOT NULL;
     ";
     /*
     $myquery = "
