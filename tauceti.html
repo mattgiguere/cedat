@@ -39,7 +39,10 @@ var margin = {top: 30, right: 20, bottom: 30, left: 50},
     height = 370 - margin.top - margin.bottom;
 
 // Parse the date / time
-var parseDate = d3.time.format("%d-%b-%y").parse;
+//This is the line for the CSV
+//var parseDate = d3.time.format("%d-%b-%y").parse;
+//This is the line for data from the DB
+var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.%L").parse;
 
 // Set the ranges
 var x = d3.time.scale().range([0, width]);
@@ -75,8 +78,8 @@ var svg = d3.select("body")
               "translate(" + margin.left + "," + margin.top + ")");
 
 // Get the data
-d3.csv("data.csv", function(error, data) {
-//d3.json("php/getData.php", function(error, data) {
+//d3.csv("data.csv", function(error, data) {
+d3.json("php/getData.php", function(error, data) {
     data.forEach(function(d) {
         d.date = parseDate(d.date);
         d.close = +d.close;
