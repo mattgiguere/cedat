@@ -89,16 +89,20 @@ d3.json("php/getData.php", function(error, data) {
     x.domain(d3.extent(data, function(d) { return d.date; }));
     y.domain([d3.min(data, function(d) { return d.close; }), d3.max(data, function(d) { return d.close; })]);
 
+    /*
     //shading between the curve and the x-axis:
     svg.append("path")
         .datum(data)
         .attr("class", "area")
         .attr("d", area);
+    */
 
+    /*
     // Add the valueline path.
     svg.append("path")
         .attr("class", "line")
         .attr("d", valueline(data));
+    */
 
     //Add scatter circles
     svg.selectAll(".dot")
