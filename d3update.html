@@ -1,0 +1,79 @@
+<html>
+<head>
+<style type="text/css">
+#update {
+    background-color: #69D2E7;
+    height: 50px;
+    width: 500px;
+    margin-top: 10px;
+    text-align: center;
+    color: #FFFFFF;
+    font-family: Verdana, Arial, Sans-Serif;
+    border-radius: 5px;
+    display: inline;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#work_queues_chart div {
+    font-size: 0.5em;
+    font-family: sans-serif;
+    color: white;
+    background-color: steelblue;
+    text-align: right;
+    padding: 0.5em;
+    margin: 0.2em;
+}
+</style>
+
+<!-- load the d3.js library -->    
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<!-- load jquery -->
+<script type='text/javascript' src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+</head>
+<body>
+<div id="update"> Updates </div>
+
+<div id="work_queues_chart" />
+
+<script type="text/javascript">
+function draw(data) {
+    var scale = d3.scale.linear()
+        .domain([0, 50])
+        .range([0, 100]);
+
+    var bars = d3.select("#work_queues_chart")
+        .selectAll("div")
+        .attr("id","work_queues_chart")
+        .data(data);
+     
+    // enter selection
+    bars
+        .enter().append("div");
+
+    // update selection
+    bars
+        .style("width", function (d) {return scale(d) + "%";})
+        .text(function (d) {return d;});
+    
+    // exit selection
+    bars
+        .exit().remove();
+};
+
+function update() {
+    console.log("here");
+    var data = [4, 8, 15, 16, 23, 42];
+    draw(data);
+};
+
+var data = [10, 10, 10, 10, 10, 10];
+window.onload = draw(data);
+
+d3.select('#update')
+    .on("click",update);
+
+</script>
+
+</body>
+</html
