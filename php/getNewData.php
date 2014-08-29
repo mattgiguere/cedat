@@ -1,5 +1,6 @@
 <?php
     //$afspath = $_SERVER["AeroFSdir"];
+    $pltpar = $_POST['param'];
     $afspath = "/mg/AeroFS/";
     //$afspath = "/Users/matt/AeroFS/";
     //echo $afspath;
@@ -29,7 +30,7 @@
     //echo "\n";
 
     $myquery = "
-    SELECT o.date_obs as date, v.mnvel as close FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='10700' AND v.mnvel IS NOT NULL;
+    SELECT o.date_obs as date, v." . $pltpar . " as close FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='10700' AND v.mnvel IS NOT NULL;
     ";   
 
     $query = mysql_query($myquery);
