@@ -1,15 +1,45 @@
-body { font: 12px Arial;}
+/*body { font: 16px Arial;} */
 
-path {
+path { 
     stroke: steelblue;
     stroke-width: 2;
     fill: none;
 }
 
-.axis path, 
+.axis path,
 .axis line {
     fill: none;
-    stroke: gray;
+    stroke: grey;
     stroke-width: 1;
     shape-rendering: crispEdges;
+}
+
+.area {
+    fill: lightsteelblue;
+    -webkit-text-stroke-width: 0;
+}
+
+.velocities {
+    height: 60px;
+    width: 100px; 
+    /*margin-top: 100px; */
+    border-radius: 1px;
+    display: inline;
+    background-color: #428BCA;
+    text-align: center;
+    color: #FFFFFF;
+    font-family: Verdana, Arial, Sans-Serif;
+    opacity: 1;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.d3 {
+    margin-top: 100px;
+}
+
+.active {
+    background-color: #556677;
 }
