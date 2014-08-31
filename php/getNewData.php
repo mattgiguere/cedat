@@ -1,6 +1,6 @@
 <?php
     //$afspath = $_SERVER["AeroFSdir"];
-    $pltpar = $_POST['param'];
+    $pltpar = $_GET['param'];
     $afspath = "/mg/AeroFS/";
     //$afspath = "/Users/matt/AeroFS/";
     //echo $afspath;
