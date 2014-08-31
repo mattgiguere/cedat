@@ -41,3 +41,19 @@ $(function (){
 
 
 */
+
+/*
+    $.ajax({
+        type: 'GET',
+        url: 'getNewData.php',
+        data: {
+            param: 'mnvel'
+        },
+        success: function(data) {
+            console.log("jQuery ajax success in script.js!!");
+            //var newdata = data;
+            //makeTimeSeriesPlot(newdata);
+            $('#newdata').append('<p>' + newdata + '</p>');
+        }
+    });
+*/
