@@ -2,7 +2,7 @@
     //$afspath = $_SERVER["AeroFSdir"];
     $pltpar = $_GET['param'];
     $afspath = "/mg/AeroFS/";
-    //$afspath = "/Users/matt/AeroFS/";
+    //  $afspath = "/Users/matt/AeroFS/";
     //echo $afspath;
     $credsfile = $afspath . '.credentials/SQL/csaye';
     $file = file_get_contents($credsfile);
