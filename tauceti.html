@@ -36,7 +36,7 @@
             <li><a href="#">Help</a></li>
           </ul>
           <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
+            <input type="text" id="objectNameInput" placeholder="Object...">
           </form>
         </div>
       </div>
@@ -46,8 +46,8 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview</a></li>
-            <li><a href="#">Time Series</a></li>
+            <li class="active"><a href="overview.html">Overview</a></li>
+            <li><a href="timeseries.html">Time Series</a></li>
             <li><a href="#">Correlations</a></li>
             <li><a href="#">Environment</a></li>
           </ul>
@@ -70,28 +70,6 @@
 
           <h2 class="sub-header">Observation Log</h2>
           <div id='table-of-observations'>
-          <!--
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>OBNM</th>
-                  <th>Object</th>
-                  <th>Exp Time</th>
-                  <th>SNR</th>
-                  <th>Zenith Distance</th>
-                </tr>
-              </thead>
-              <tbody id="observations-table">
-                <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                </tr>
-              </tbody>
-            </table>
-            -->
           </div>
         </div>
       </div>
@@ -101,6 +79,16 @@
 
 
 <script>
+
+//Get the object name from the 'Object...' form input field:
+var objectNmElement = document.getElementById("objectNameInput");
+var objectNm = objectNmElement.value;
+
+console.log(objectNm);
+if (objectNm == "") {
+    objectNm = "10700";
+}
+console.log(objectNm);
 
 /*     ***Begin D3 Global Variables***
 These are used for both makeInitTimeSeriesPlot()
@@ -216,7 +204,7 @@ function makeInitTimeSeriesPlot() {
 
             //Insert the columns:
             var tds = trs.selectAll('td')
-                        .data(function(d) { return [d.obnm, d.objectnm, d.exptime, d.snr, d.zd];})
+                        .data(function(d) { return [d.obnm, d.objectnm, d3.round(d.exptime, 2), d3.round(d.snr, 2), d.zd];})
                         .enter()
                         .append('td')
                         .text(function(d) {return d;});
@@ -331,14 +319,7 @@ function addAxes() {
         .text('mnvel');
 
 }
-//var phpdata = "php/getData.php";
 window.onload = makeInitTimeSeriesPlot();
-
-/*
-d3.select('.velocities')
-    .on("click", console.log($(this).text()));
-*/
-
 </script>
 
     <!-- Bootstrap core JavaScript
