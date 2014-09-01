@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('.velocities').click(function() {
         //alert("Clicked!");
-        update($(this).text());
+        updateTimePlot($(this).text());
     });
     $('.velocities').mouseenter(function() {
         $(this).fadeTo('fast', 1.0);
