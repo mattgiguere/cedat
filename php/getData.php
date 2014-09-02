@@ -29,7 +29,7 @@
     //echo "\n";
 
     $myquery = "
-    SELECT o.date_obs as date, v.mnvel as close FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='10700' AND v.mnvel IS NOT NULL;
+    SELECT o.date_obs as date, v.mnvel as ydata, o.obnm as obnm, o.object as objectnm, sqrt(v.cts) as snr, o.exptime as exptime, o.zd as zd FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='10700' AND v.mnvel IS NOT NULL;
     ";   
 
     $query = mysql_query($myquery);
