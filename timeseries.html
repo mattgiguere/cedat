@@ -29,64 +29,116 @@
           CHIRON Exploratory Data Analysis Tool</a>
         </div>
         <div class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right">
-            <input type="text" id="objectNameInput" placeholder="Object...">
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li><a href="overview.html">Overview</a></li>
-            <li class="active"><a href="timeseries.html">Time Series</a></li>
-            <li><a href="#">Correlations</a></li>
-            <li><a href="#">Environment</a></li>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
           </ul>
         </div>
-<!-- END Bootstrap navbar -->
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Time Series</h1>
-
-            <div class='d3'></div>
-          <h2 class="sub-header"> Velocity Information </h2>
-            <div class='velocities'>mnvel</div> 
-            <div class='velocities'>mdvel</div>
-            <div class='velocities'>bc</div>
-            <div class='velocities'>z</div>
-            <div class='velocities'>gain</div>
-            <div class='velocities'>cts</div>
-            <div class='velocities'>errvel</div>
-            <div class='velocities'>mdchi</div>
-            <div class='velocities'>nchunk</div>
-          <h2 class="sub-header"> Environmental Information </h2>
-            <div class='environment'>necktemp</div> 
-            <div class='environment'>ccdtemp</div>
-
-            <div id='newdata'></div>
-
-          <h2 class="sub-header">Observation Table</h2>
-          <div id='table-of-observations'>
-          </div>
-
-        </div>
       </div>
     </div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+      <ul class="nav nav-sidebar">
+        <li><a href="overview.html">Overview</a></li>
+        <li class="active"><a href="timeseries.html">Time Series</a></li>
+        <li><a href="#">Correlations</a></li>
+        <li><a href="#">Environment</a></li>
+      </ul>
+
+      <ul class="nav nav-sidebar">
+        <li class='objectnames'><a href="#">10700</a></li>
+        <li class='objectnames'><a href="#">20794</a></li>
+        <li class='objectnames'><a href="#">22049</a></li>
+    </ul>
+    </div>
+<!-- END Bootstrap navbar -->
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+      <h1 class="page-header">Time Series</h1>
+
+    <div class='d3'></div>
+    <div class='tableSection'>
+        <h2 class="sub-header"> Observation Information </h2>
+        <div class='dbcolumn'>propid</div> 
+        <div class='dbcolumn'>rexptime</div>
+        <div class='dbcolumn'>exptime</div>
+        <div class='dbcolumn'>texptime</div>
+        <div class='dbcolumn'>darktime</div>
+        <div class='dbcolumn'>pixtime</div>
+        <div class='dbcolumn'>powstat</div>
+        <div class='dbcolumn'>deckpos</div>
+        <div class='dbcolumn'>focus</div>
+        <div class='dbcolumn'>maxexp</div>
+        <div class='dbcolumn'>obs_ra</div> 
+        <div class='dbcolumn'>obs_dec</div>
+        <div class='dbcolumn'>alt</div>
+        <div class='dbcolumn'>ha</div>
+        <div class='dbcolumn'>st</div>
+        <div class='dbcolumn'>zd</div>
+        <div class='dbcolumn'>airmass</div>
+    </div>
+    <div class="tableSection">
+        <h2 class="sub-header"> Velocity Information </h2>
+        <div class='dbcolumn'>mnvel</div> 
+        <div class='dbcolumn'>mdvel</div>
+        <div class='dbcolumn'>bc</div>
+        <div class='dbcolumn'>z</div>
+        <div class='dbcolumn'>gain</div>
+        <div class='dbcolumn'>cts</div>
+        <div class='dbcolumn'>errvel</div>
+        <div class='dbcolumn'>mdchi</div>
+        <div class='dbcolumn'>nchunk</div>
+    </div>
+
+    <div class="tableSection">
+        <h2 class="sub-header"> Environmental Information </h2>
+        <div class='dbcolumn'>ccdtemp</div>
+        <div class='dbcolumn'>necktemp</div> 
+        <div class='dbcolumn'>tempgrat</div>
+        <div class='dbcolumn'>temptlow</div>
+        <div class='dbcolumn'>temptcen</div>
+        <div class='dbcolumn'>tempstru</div>
+        <div class='dbcolumn'>tempencl</div>
+        <div class='dbcolumn'>tempcoud</div>
+        <div class='dbcolumn'>tempinst</div>
+        <div class='dbcolumn'>tempiodin</div>
+        <div class='dbcolumn'>dewpress</div>
+        <div class='dbcolumn'>echpress</div>
+        <div class='dbcolumn'>baromete</div>
+    </div>
+
+    <div class="tableSection">
+        <div id='newdata'></div>
+    </div>
+
+    <div class="tableSection">
+        <h2 class="sub-header">Observation Table</h2>
+        <div id='table-of-observations'></div>
+    </div>
+
+    </div>
+  </div>
+</div>
 
 
 
 <script>
 
 //Get the object name from the 'Object...' form input field:
-var objectNmElement = document.getElementById("objectNameInput");
-var objectNm = objectNmElement.value;
+var objectNm = '20794';
+var param = 'mnvel';
 
-console.log(objectNm);
-if (objectNm == "") {
-    objectNm = "10700";
+function changeObject() {
+    var objectNmElement = document.getElementById("objectNameInput");
+    objectNm = objectNmElement.value;
+    console.log('objectNm changed. The new objectNm is: ');
+    console.log(objectNm);
+    updateTimePlot('mnvel');
 }
+
 console.log(objectNm);
 
 /*     ***Begin D3 Global Variables***
@@ -152,8 +204,6 @@ var tbody = table.append('tbody');
 /* ***End D3 Global Variables*** */
 function makeInitTimeSeriesPlot() {
 
-    var param = 'mnvel';
-
     //A little jQuery to print the data
     //for debugging purposes:
     //$('#newdata').append('<p>' + param + '</p>');
@@ -180,7 +230,7 @@ function makeInitTimeSeriesPlot() {
     5. path
     6. polygon
     */
-    d3.json("php/getNewData.php?param="+param, function(error, data) {
+    d3.json("php/getNewData.php?param=mnvel&tablenm=velocities&objectnm="+objectNm, function(error, data) {
         if (error) {
             console.log("There was an error loading the JSON blob.");
             console.log("The parameter passed to getNewData.php was:");
@@ -230,7 +280,8 @@ function makeInitTimeSeriesPlot() {
 }
 
 function updateTimePlot(param) {
-    d3.json("php/getNewData.php?param="+param, function(error, data) {
+    var tblnm = determineTable(param);
+    d3.json("php/getNewData.php?param="+param+"&tablenm="+tblnm+"&objectnm="+objectNm, function(error, data) {
         if (error) {
             console.log("There was an error loading the JSON blob.");
             console.log("The parameter passed to getNewData.php was:");
@@ -270,16 +321,6 @@ function updateTimePlot(param) {
             tds.enter().append('td');
 
             tds.text(function(d) { return d;})
-
-
-            /*
-            //Insert the columns:
-            var tds = trs.selectAll('td')
-                        .data(function(d) { return [d.obnm, d.objectnm, d.date, d3.round(d.ydata,2)];})
-                        .transition()
-                        .duration(1000)
-                        .text(function(d) {return d;});
-            */
 
             // Scale the range of the data
             xScale.domain(d3.extent(data, function(d) { return d.date; }));
