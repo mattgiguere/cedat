@@ -1,6 +1,9 @@
 <?php
     //$afspath = $_SERVER["AeroFSdir"];
     $pltpar = $_GET['param'];
+    $sqltblnm = $_GET['tablenm'];
+    $objectnm = $_GET['objectnm'];
+    
     $afspath = "/mg/AeroFS/";
     //  $afspath = "/Users/matt/AeroFS/";
     //echo $afspath;
@@ -29,9 +32,22 @@
     //echo $connection;
     //echo "\n";
 
-    $myquery = "
-    SELECT o.date_obs as date, v." . $pltpar . " as ydata, o.obnm as obnm, o.object as objectnm, sqrt(v.cts) as snr, o.exptime as exptime, o.zd as zd FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='10700' AND v.mnvel IS NOT NULL;
+    if ($sqltblnm =='observations') {
+        $myquery = "
+    SELECT o.date_obs as date, o." . $pltpar . " as ydata, o.obnm as obnm, o.object as objectnm, sqrt(v.cts) as snr, o.exptime as exptime, o.zd as zd FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='" . $objectnm . "' AND v.mnvel IS NOT NULL;
     ";   
+    }
+
+    if ($sqltblnm =='velocities') {
+        $myquery = "
+    SELECT o.date_obs as date, v." . $pltpar . " as ydata, o.obnm as obnm, o.object as objectnm, sqrt(v.cts) as snr, o.exptime as exptime, o.zd as zd FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='" . $objectnm . "' AND v.mnvel IS NOT NULL;
+    ";   
+    }
+    
+    if (($sqltblnm !='observations') and ($sqltblnm !='velocities')) {
+        $myquery = "
+        SELECT o.date_obs as date, ". $sqltblnm . "." . $pltpar . " as ydata, o.obnm as obnm, o.object as objectnm FROM observations o INNER JOIN " . $sqltblnm . " ON " . $sqltblnm.  ".observation_id=o.observation_id WHERE o.object='" . $objectnm . "' AND ". $sqltblnm . "." . $pltpar . " IS NOT NULL;";   
+    }
 
     $query = mysql_query($myquery);
     
