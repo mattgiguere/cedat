@@ -147,12 +147,15 @@ and updateTimePlot()
 */
 
 // Set the dimensions of the canvas / graph
-var margin = {top: 30, right: 20, bottom: 30, left: 50},
-    width = 1000 - margin.left - margin.right,
-    height = 370 - margin.top - margin.bottom;
+var margin = {top: 30, right: 20, bottom: 100, left: 50},
+    margin2 = {top:430, right: 10, bottom: 20, left:50},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom,
+    height2 = 500 - margin2.top - margin2.bottom;
 
 //add padding (in percent) so extrema don't fall on axes:
 var padding = 5;
+
 //calculate fractional padding:
 var fpad = padding/100.
 
@@ -163,8 +166,43 @@ var fpad = padding/100.
 var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.%L").parse;
 
 // Set the ranges
-var xScale = d3.time.scale().range([fpad*width, width - fpad*width]);
-var yScale = d3.scale.linear().range([height - fpad*height, fpad*height]);
+var xScale = d3.time.scale().range([0, width]);
+var xScale2 = d3.time.scale().range([0, width]);
+var yScale = d3.scale.linear().range([height, 0]);
+var yScale2 = d3.scale.linear().range([height2, 0]);
+
+// Define the axes
+var xAxis = d3.svg.axis()
+                .scale(xScale)
+                .orient("bottom")
+                .ticks(5);
+
+var xAxis2 = d3.svg.axis()
+                .scale(xScale2)
+                .orient("bottom")
+                .ticks(5);
+
+var yAxis = d3.svg.axis()
+                .scale(yScale)
+                .orient("left")
+                .ticks(5);
+
+
+var brush = d3.svg.brush()
+    .x(xScale2)
+    .on("brush", brushed);
+
+var area = d3.svg.area()
+    .interpolate("monotone")
+    .x(function(d) { return xScale(d.date); })
+    .y0(height)
+    .y1(function(d) { return yScale(d.ydata); })
+
+var area2 = d3.svg.area()
+    .interpolate("monotone")
+    .x(function(d) { return xScale2(d.date); })
+    .y0(height2)
+    .y1(function(d) { return yScale2(d.ydata); })
 
 /*Add the svg canvas to the "d3" class div on the page.
 The "d3" div is just a marker location so that I could
@@ -177,16 +215,19 @@ var svg = d3.select(".d3")
     .attr("transform", 
           "translate(" + margin.left + "," + margin.top + ")");
 
-// Define the axes
-var xAxis = d3.svg.axis()
-                .scale(xScale)
-                .orient("bottom")
-                .ticks(5);
+svg.append("defs").append("clipPath")
+    .attr("id", "clip")
+    .append("rect")
+    .attr("width", width)
+    .attr("height", height)
 
-var yAxis = d3.svg.axis()
-                .scale(yScale)
-                .orient("left")
-                .ticks(5);
+var focus = svg.append("g")
+    .attr("class", "focus")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var context = svg.append("g")
+    .attr("class", "context")
+    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
 //add observations to table:
 var table = d3.select("#table-of-observations")
@@ -223,11 +264,13 @@ function makeInitTimeSeriesPlot() {
         .x(function(d) { return x(d.date); })
         .y(function(d) { return y(d.ydata); });
         
+    /*
     //Now fill in the area:
     var area = d3.svg.area()
         .x(function(d) { return x(d.date); })
         .y0(height)
         .y1(function(d) { return y(d.ydata); });
+    */
 
     /* append the data as circles to the svg canvas. circles
     are one of the 6 types of SVG elements. The whole list
@@ -247,11 +290,47 @@ function makeInitTimeSeriesPlot() {
             console.log(error);
         } else {
 
-
+            
             data.forEach(function(d) {
                 d.date = parseDate(d.date);
                 d.ydata = +d.ydata;
             });
+            
+            console.log("Now in d3.json...");
+
+            focus.append("path")
+                .datum(data)
+                .attr("class", "area")
+                .attr("d", area);
+
+            focus.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+            focus.append("g")
+                .attr("class", "y axis")
+                .call(yAxis);
+
+            context.append("path")
+                .datum(data)
+                .attr("class", "area")
+                .attr("d", area2);
+
+            context.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height2 + ")")
+                .call(xAxis2);
+
+            context.append("g")
+                .attr("class", "x brush")
+                .call(brush)
+                .selectAll('rect')
+                .attr("y", -6)
+                .attr("height", height2 + 7);
+
+
+
 
             //create the rows that have all the 
             //data in __data__:
@@ -271,7 +350,10 @@ function makeInitTimeSeriesPlot() {
             xScale.domain(d3.extent(data, function(d) { return d.date; }));
             yScale.domain([d3.min(data, function(d) { return d.ydata; }), 
                 d3.max(data, function(d) { return d.ydata; })]);
+            xScale2.domain(xScale.domain());
+            yScale2.domain(yScale.domain());
 
+            /*
             svg.selectAll(".dot")
                 .data(data)
                 .enter()
@@ -280,12 +362,25 @@ function makeInitTimeSeriesPlot() {
                 .attr('r', 3.5)
                 .attr('cx', function(d) { return xScale(d.date); })
                 .attr('cy', function(d) { return yScale(d.ydata); })
+            */
 
-            addAxes();
+            //addAxes();
 
         }
     });
 
+}
+
+function brushed() {
+    xScale.domain(brush.empty() ? xScale2.domain() : brush.extent());
+    focus.select(".area").attr("d", area);
+    focus.select(".x.axis").call(xAxis);
+}
+
+function type(d) {
+    d.date = parseDate(d.date);
+    d.ydata = +d.ydata;
+    return d;
 }
 
 function updateTimePlot(param) {
