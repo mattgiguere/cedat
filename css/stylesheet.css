@@ -19,27 +19,37 @@ path {
     -webkit-text-stroke-width: 0;
 }
 
-.velocities {
-    height: 60px;
-    width: 100px; 
+.dbcolumn {
+    height: 28px;
+    width: 70px; 
     /*margin-top: 100px; */
     border-radius: 1px;
     display: inline;
     background-color: #428BCA;
     text-align: center;
+    vertical-align: middle;
     color: #FFFFFF;
     font-family: Verdana, Arial, Sans-Serif;
+    font-size: 12px;
     opacity: 1;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 5px;
+    float: left;
+    margin-bottom: 1px;
+    margin-top: 1px;
+    margin-right: 5px;
     padding-bottom: 5px;
+    padding-top: 5px;
+
 }
 
 .d3 {
     margin-top: 100px;
 }
 
+.tableSection {
+    margin-top: 10px;
+    margin-bottom: 3px;
+    clear: both;
+}
 .active {
     background-color: #556677;
 }
