@@ -35,9 +35,6 @@
             <li><a href="#">Profile</a></li>
             <li><a href="#">Help</a></li>
           </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" id="objectNameInput" placeholder="Object...">
-          </form>
         </div>
       </div>
     </div>
@@ -51,6 +48,12 @@
             <li><a href="#">Correlations</a></li>
             <li><a href="#">Environment</a></li>
           </ul>
+
+          <ul class="nav nav-sidebar">
+            <li class='objectnames'><a href="#">10700</a></li>
+            <li class='objectnames'><a href="#">20794</a></li>
+            <li class='objectnames'><a href="#">22049</a></li>
+        </ul>
         </div>
 <!-- END Bootstrap navbar -->
 
@@ -77,14 +80,11 @@
 <script>
 
 //Get the object name from the 'Object...' form input field:
-var objectNmElement = document.getElementById("objectNameInput");
-var objectNm = objectNmElement.value;
+var objectNm = '10700';
+var param = 'mnvel';
 
-console.log(objectNm);
-if (objectNm == "") {
-    objectNm = "10700";
-}
-console.log(objectNm);
+
+//console.log(objectNm);
 
 /*     ***Begin D3 Global Variables***
 These are used for both makeInitTimeSeriesPlot()
@@ -132,10 +132,22 @@ var yAxis = d3.svg.axis()
                 .scale(yScale)
                 .orient("left")
                 .ticks(5);
+
+//add observations to table:
+var table = d3.select("#table-of-observations")
+    .append('table')
+    .attr("class", "table table-striped");
+
+var thead = table.append("thead");
+thead.append("th").text("Observation Name");
+thead.append("th").text("Object Name");
+thead.append("th").text("Date");
+var newcolhead = thead.append("th").text('mnvel');
+
+var tbody = table.append('tbody');
+
 /* ***End D3 Global Variables*** */
 function makeInitTimeSeriesPlot() {
-
-    var param = 'mnvel';
 
     //A little jQuery to print the data
     //for debugging purposes:
@@ -163,11 +175,9 @@ function makeInitTimeSeriesPlot() {
     5. path
     6. polygon
     */
-    d3.json("php/getNewData.php?param="+param, function(error, data) {
+    d3.json("php/getNewData.php?param=mnvel&tablenm=velocities&objectnm="+objectNm, function(error, data) {
         if (error) {
             console.log("There was an error loading the JSON blob.");
-            console.log("The parameter passed to getNewData.php was:");
-            console.log(param);
             console.log(error);
         } else {
 
@@ -176,20 +186,6 @@ function makeInitTimeSeriesPlot() {
                 d.date = parseDate(d.date);
                 d.ydata = +d.ydata;
             });
-
-            //add observations to table:
-            var table = d3.select("#table-of-observations")
-                .append('table')
-                .attr("class", "table table-striped");
-
-            var thead = table.append("thead");
-            thead.append("th").text("Observation Name");
-            thead.append("th").text("Object Name");
-            thead.append("th").text("Exposure Time");
-            thead.append("th").text("SNR");
-            thead.append("th").text("Zenith Distance");
-
-            var tbody = table.append('tbody');
 
             //create the rows that have all the 
             //data in __data__:
@@ -227,7 +223,8 @@ function makeInitTimeSeriesPlot() {
 }
 
 function updateTimePlot(param) {
-    d3.json("php/getNewData.php?param="+param, function(error, data) {
+    var tblnm = determineTable(param);
+    d3.json("php/getNewData.php?param="+param+"&tablenm="+tblnm+"&objectnm="+objectNm, function(error, data) {
         if (error) {
             console.log("There was an error loading the JSON blob.");
             console.log("The parameter passed to getNewData.php was:");
@@ -241,7 +238,32 @@ function updateTimePlot(param) {
                 d.ydata = +d.ydata;
             });
 
-            //console.log(data);
+            //update the column header in the table:
+            newcolhead
+                .transition()
+                .duration(1000)
+                .text(param)
+
+            //create the rows that have all the 
+            //data in __data__:
+            var trs = tbody.selectAll('tr')
+                .data(data);
+
+            trs.exit().remove();
+
+            trs.enter().append('tr');
+
+            //Update the columns:
+            var tds = trs.selectAll('td')
+                        .data(function(d) { return [d.obnm, d.objectnm, d.date, d3.round(d.ydata,2)];});
+
+            //remove old columns:
+            tds.exit().remove();
+
+            //add new columns:
+            tds.enter().append('td');
+
+            tds.text(function(d) { return d;})
 
             // Scale the range of the data
             xScale.domain(d3.extent(data, function(d) { return d.date; }));
@@ -249,12 +271,26 @@ function updateTimePlot(param) {
                 d3.max(data, function(d) { return d.ydata; })]);
 
             //Update all data points:
-            svg.selectAll(".dot")
+            var dots = svg.selectAll(".dot")
                 .data(data)
                 .transition()
                 .duration(1000)
                 .attr('cx', function(d) { return xScale(d.date); })
                 .attr('cy', function(d) { return yScale(d.ydata); })
+
+            svg.selectAll(".dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("class", "dot")
+                .attr('r', 3.5)
+                .attr('cx', function(d) { return xScale(d.date); })
+                .attr('cy', function(d) { return yScale(d.ydata); })
+
+            svg.selectAll(".dot")
+                .data(data)
+                .exit()
+                .remove();
 
             /*Now update the axes. */
             // Update the X Axis
@@ -316,6 +352,15 @@ function addAxes() {
 
 }
 window.onload = makeInitTimeSeriesPlot();
+
+function changeObject() {
+    var objectNmElement = document.getElementById("objectNameInput");
+    objectNm = objectNmElement.value;
+    console.log('objectNm changed. The new objectNm is: ');
+    console.log(objectNm);
+    updateTimePlot('mnvel');
+}
+
 </script>
 
     <!-- Bootstrap core JavaScript
