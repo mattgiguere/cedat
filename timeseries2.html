@@ -128,7 +128,7 @@
 <script>
 
 //Get the object name from the 'Object...' form input field:
-var objectNm = '20794';
+var objectNm = '10700';
 var param = 'mnvel';
 
 function changeObject() {
@@ -191,13 +191,13 @@ var brush = d3.svg.brush()
     .on("brush", brushed);
 
 var area = d3.svg.area()
-    .interpolate("monotone")
+    .interpolate("linear")
     .x(function(d) { return xScale(d.date); })
     .y0(height)
     .y1(function(d) { return yScale(d.ydata); })
 
 var area2 = d3.svg.area()
-    .interpolate("monotone")
+    .interpolate("linear")
     .x(function(d) { return xScale2(d.date); })
     .y0(height2)
     .y1(function(d) { return yScale2(d.ydata); })
@@ -230,6 +230,8 @@ var context = svg.append("g")
     .attr("class", "context")
     .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
+var focuscircgrp = focus.append("g");
+
 //add observations to table:
 var table = d3.select("#table-of-observations")
     .append('table')
@@ -243,15 +245,6 @@ var newcolhead = thead.append("th").text('mnvel');
 
 var tbody = table.append('tbody');
 
-/*
-var brush = d3.svg.brush()
-            .x(xScale)
-            .y(yScale)
-            .on("brushstart", brushstart)
-            .on("brush", brushmove)
-            .on("brushend", brushend);
-*/
-
 /* ***End D3 Global Variables*** */
 function makeInitTimeSeriesPlot() {
 
@@ -262,17 +255,9 @@ function makeInitTimeSeriesPlot() {
     // Define the line
     var valueline = d3.svg.line()
     //    .interpolate("basis")
-        .x(function(d) { return x(d.date); })
-        .y(function(d) { return y(d.ydata); });
+        .x(function(d) { return xScale(d.date); })
+        .y(function(d) { return yScale(d.ydata); });
         
-    /*
-    //Now fill in the area:
-    var area = d3.svg.area()
-        .x(function(d) { return x(d.date); })
-        .y0(height)
-        .y1(function(d) { return y(d.ydata); });
-    */
-
     /* append the data as circles to the svg canvas. circles
     are one of the 6 types of SVG elements. The whole list
     being:
@@ -307,14 +292,13 @@ function makeInitTimeSeriesPlot() {
             yScale2.domain(yScale.domain());
 
             
-            /*
             focus.append("path")
                 .datum(data)
                 .attr("class", "area")
                 .attr("d", area);
-            */
             
-            focus.selectAll(".dot")
+            
+            focuscircgrp.selectAll(".dot")
                 .data(data)
                 .enter()
                 .append("circle")
@@ -332,12 +316,12 @@ function makeInitTimeSeriesPlot() {
                 .attr("class", "y axis")
                 .call(yAxis);
 
-            /*
+            
             context.append("path")
                 .datum(data)
                 .attr("class", "area")
                 .attr("d", area2);
-            */
+            
 
             context.selectAll(".dot")
                 .data(data)
@@ -360,9 +344,6 @@ function makeInitTimeSeriesPlot() {
                 .attr("y", -6)
                 .attr("height", height2 + 7);
 
-
-
-
             //create the rows that have all the 
             //data in __data__:
             var trs = tbody.selectAll('tr')
@@ -376,20 +357,6 @@ function makeInitTimeSeriesPlot() {
                         .enter()
                         .append('td')
                         .text(function(d) {return d;});
-
-            /*
-            svg.selectAll(".dot")
-                .data(data)
-                .enter()
-                .append("circle")
-                .attr("class", "dot")
-                .attr('r', 3.5)
-                .attr('cx', function(d) { return xScale(d.date); })
-                .attr('cy', function(d) { return yScale(d.ydata); })
-            */
-
-            //addAxes();
-
         }
     });
 
@@ -399,6 +366,11 @@ function brushed() {
     xScale.domain(brush.empty() ? xScale2.domain() : brush.extent());
     focus.select(".area").attr("d", area);
     focus.select(".x.axis").call(xAxis);
+    //focus.select(".dot").attr("circle", area);
+    //focus.select(".dot").call(xAxis);
+    focuscircgrp.selectAll(".dot")
+        .attr("cx", function(d) { return xScale(d.date); })
+        .attr("cy", function(d) { return yScale(d.ydata); });
 }
 
 function type(d) {

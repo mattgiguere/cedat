@@ -19,6 +19,22 @@ path {
     -webkit-text-stroke-width: 0;
 }
 
+.dot {
+  fill: #999;
+  stroke: #555;
+}
+
+.dot.scanned {
+  fill: orange;
+  fill-opacity: 1;
+  stroke: brown;
+}
+
+.dot.selected {
+  fill: red;
+  fill-opacity: 1;
+}
+
 .dbcolumn {
     height: 28px;
     width: 70px; 
@@ -53,3 +69,10 @@ path {
 .active {
     background-color: #556677;
 }
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
