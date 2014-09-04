@@ -278,10 +278,12 @@ function makeInitTimeSeriesPlot() {
             xScale2.domain(xScale.domain());
             yScale2.domain(yScale.domain());
 
+            /*
             focuspathgrp.append("path")
                 .datum(data)
                 .attr("class", "area")
                 .attr("d", area);
+            */
             
             focuscircgrp.selectAll(".dot")
                 .data(data)
@@ -385,10 +387,12 @@ function updateTimePlot(param) {
             xScale2.domain(xScale.domain());
             yScale2.domain(yScale.domain());
 
+            /*
             focuspathgrp.append("path")
                 .datum(data)
                 .attr("class", "area")
                 .attr("d", area);
+            */
 
             //Update all focus data points:
             focuscircgrp.selectAll(".dot")
