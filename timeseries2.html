@@ -141,6 +141,13 @@ function changeObject() {
 
 console.log(objectNm);
 
+d3.select(window).on('resize', resize);
+
+function resize() {
+var width = parseInt(d3.select(".d3").style('width'), 10) - margin.left - margin.right;
+makeInitTimeSeriesPlot()
+}//end of resize()
+
 /*     ***Begin D3 Global Variables***
 These are used for both makeInitTimeSeriesPlot()
 and updateTimePlot()
@@ -150,9 +157,12 @@ and updateTimePlot()
 var margin = {top: 10, right: 10, bottom: 100, left: 40},
     margin2 = {top:430, right: 10, bottom: 20, left:40},
     padding = {top:5, right:5, bottom:20, left: 20},
-    width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom,
     height2 = 500 - margin2.top - margin2.bottom;
+
+//make a responsize width:
+var width = parseInt(d3.select(".d3").style('width'), 10) - margin.left - margin.right;
+
 
 //calculate fractional padding:
 var fpad = padding/100.
@@ -210,12 +220,6 @@ var svg = d3.select(".d3")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
 
-/*
-    .append("g")
-    .attr("transform", 
-          "translate(" + margin.left + "," + margin.top + ")");
-*/
-
 svg.append("defs").append("clipPath")
     .attr("id", "clip")
     .append("rect")
@@ -230,7 +234,11 @@ var context = svg.append("g")
     .attr("class", "context")
     .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
+//These groups are needed for update purposes:
+var focuspathgrp = focus.append("g");
 var focuscircgrp = focus.append("g");
+var contextpathgrp = context.append("g");
+var contextcircgrp = context.append("g");
 
 //add observations to table:
 var table = d3.select("#table-of-observations")
@@ -247,27 +255,6 @@ var tbody = table.append('tbody');
 
 /* ***End D3 Global Variables*** */
 function makeInitTimeSeriesPlot() {
-
-    //A little jQuery to print the data
-    //for debugging purposes:
-    //$('#newdata').append('<p>' + param + '</p>');
-
-    // Define the line
-    var valueline = d3.svg.line()
-    //    .interpolate("basis")
-        .x(function(d) { return xScale(d.date); })
-        .y(function(d) { return yScale(d.ydata); });
-        
-    /* append the data as circles to the svg canvas. circles
-    are one of the 6 types of SVG elements. The whole list
-    being:
-    1. circle
-    2. rect
-    3. ellipse
-    4. line
-    5. path
-    6. polygon
-    */
     d3.json("php/getNewData.php?param=mnvel&tablenm=velocities&objectnm="+objectNm, function(error, data) {
         if (error) {
             console.log("There was an error loading the JSON blob.");
@@ -291,12 +278,10 @@ function makeInitTimeSeriesPlot() {
             xScale2.domain(xScale.domain());
             yScale2.domain(yScale.domain());
 
-            
-            focus.append("path")
+            focuspathgrp.append("path")
                 .datum(data)
                 .attr("class", "area")
                 .attr("d", area);
-            
             
             focuscircgrp.selectAll(".dot")
                 .data(data)
@@ -315,15 +300,13 @@ function makeInitTimeSeriesPlot() {
             focus.append("g")
                 .attr("class", "y axis")
                 .call(yAxis);
-
             
-            context.append("path")
+            contextpathgrp.append("path")
                 .datum(data)
                 .attr("class", "area")
                 .attr("d", area2);
             
-
-            context.selectAll(".dot")
+            contextcircgrp.selectAll(".dot")
                 .data(data)
                 .enter()
                 .append("circle")
@@ -357,6 +340,8 @@ function makeInitTimeSeriesPlot() {
                         .enter()
                         .append('td')
                         .text(function(d) {return d;});
+
+
         }
     });
 
@@ -366,8 +351,6 @@ function brushed() {
     xScale.domain(brush.empty() ? xScale2.domain() : brush.extent());
     focus.select(".area").attr("d", area);
     focus.select(".x.axis").call(xAxis);
-    //focus.select(".dot").attr("circle", area);
-    //focus.select(".dot").call(xAxis);
     focuscircgrp.selectAll(".dot")
         .attr("cx", function(d) { return xScale(d.date); })
         .attr("cy", function(d) { return yScale(d.ydata); });
@@ -394,6 +377,91 @@ function updateTimePlot(param) {
                 d.date = parseDate(d.date);
                 d.ydata = +d.ydata;
             });
+
+            // Scale the range of the data
+            xScale.domain(d3.extent(data, function(d) { return d.date; }));
+            yScale.domain([d3.min(data, function(d) { return d.ydata; }), 
+                d3.max(data, function(d) { return d.ydata; })]);
+            xScale2.domain(xScale.domain());
+            yScale2.domain(yScale.domain());
+
+            focuspathgrp.append("path")
+                .datum(data)
+                .attr("class", "area")
+                .attr("d", area);
+
+            //Update all focus data points:
+            focuscircgrp.selectAll(".dot")
+                .data(data)
+                .transition()
+                .duration(1000)
+                .attr('cx', function(d) { return xScale(d.date); })
+                .attr('cy', function(d) { return yScale(d.ydata); })
+
+            focuscircgrp.selectAll(".dot")
+                .data(data)
+                .exit()
+                .remove();
+
+            focuscircgrp.selectAll(".dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("class", "dot")
+                .attr('r', 3.5)
+                .attr('cx', function(d) { return xScale(d.date); })
+                .attr('cy', function(d) { return yScale(d.ydata); })
+                .transition()
+                .duration(1000);
+
+
+            //Update all focus data points:
+            contextcircgrp.selectAll(".dot")
+                .data(data)
+                .transition()
+                .duration(1000)
+                .attr('cx', function(d) { return xScale2(d.date); })
+                .attr('cy', function(d) { return yScale2(d.ydata); })
+
+            contextcircgrp.selectAll(".dot")
+                .data(data)
+                .exit()
+                .remove();
+
+            contextcircgrp.selectAll(".dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("class", "dot")
+                .attr('r', 3.5)
+                .attr('cx', function(d) { return xScale2(d.date); })
+                .attr('cy', function(d) { return yScale2(d.ydata); })
+                .transition()
+                .duration(1000);
+
+
+            /*Now update the axes. */
+            // Update the X Axis
+            svg.select(".x.axis")
+                .transition()
+                .duration(1000)
+                .call(xAxis);
+
+            // Update the Y Axis
+            svg.select(".y.axis")
+                .transition()
+                .duration(1000)
+                .call(yAxis);
+
+            //Update X Axis Label:
+            svg.select(".y.label")
+                .transition()
+                .duration(1000)
+                .text(param);
+
+            /**************************************/
+            /* ***** UPDATE TABLE AT BOTTOM ***** */
+            /**************************************/
 
             //update the column header in the table:
             newcolhead
@@ -422,53 +490,6 @@ function updateTimePlot(param) {
 
             tds.text(function(d) { return d;})
 
-            // Scale the range of the data
-            xScale.domain(d3.extent(data, function(d) { return d.date; }));
-            yScale.domain([d3.min(data, function(d) { return d.ydata; }), 
-                d3.max(data, function(d) { return d.ydata; })]);
-
-            //Update all data points:
-            svg.selectAll(".dot")
-                .data(data)
-                .transition()
-                .duration(1000)
-                .attr('cx', function(d) { return xScale(d.date); })
-                .attr('cy', function(d) { return yScale(d.ydata); })
-
-            svg.selectAll(".dot")
-                .data(data)
-                .exit()
-                .remove();
-
-            svg.selectAll(".dot")
-                .data(data)
-                .enter()
-                .append("circle")
-                .attr("class", "dot")
-                .attr('r', 3.5)
-                .attr('cx', function(d) { return xScale(d.date); })
-                .attr('cy', function(d) { return yScale(d.ydata); })
-                .transition()
-                .duration(1000);
-
-            /*Now update the axes. */
-            // Update the X Axis
-            svg.select(".x.axis")
-                .transition()
-                .duration(1000)
-                .call(xAxis);
-
-            // Update the Y Axis
-            svg.select(".y.axis")
-                .transition()
-                .duration(1000)
-                .call(yAxis);
-
-            //Update X Axis Label:
-            svg.select(".y.label")
-                .transition()
-                .duration(1000)
-                .text(param);
         }
 
     });
