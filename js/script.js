@@ -1,8 +1,9 @@
 $(document).ready(function() {
     $('.dbcolumn').click(function() {
         //alert("Clicked!");
-        console.log($(this).text()+"clicked.");
-        updateTimePlot($(this).text());
+        console.log($(this).text()+" clicked.");
+        param = $(this).text();
+        updateTimePlot(param);
     });
     $('.objectnames').click(function() {
         objectNm = $(this).text();
