@@ -3,8 +3,13 @@
     $pltpar = $_GET['param'];
     $sqltblnm = $_GET['tablenm'];
 
-    $afspath = "/mg/AeroFS/";
-    //  $afspath = "/Users/matt/AeroFS/";
+    if (gethostname() == 'aramis.astro.yale.edu') {
+        $afspath = "/mg/AeroFS/";    
+    } else {
+        $afspath = "/Users/matt/AeroFS/";
+    }
+    
+    //  
     //echo $afspath;
     $credsfile = $afspath . '.credentials/SQL/csaye';
     $file = file_get_contents($credsfile);
