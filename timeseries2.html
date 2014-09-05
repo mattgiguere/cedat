@@ -285,6 +285,7 @@ function makeInitTimeSeriesPlot() {
                 .attr("d", area);
             */
             
+            
             focuscircgrp.selectAll(".dot")
                 .data(data)
                 .enter()
@@ -388,11 +389,22 @@ function updateTimePlot(param) {
             yScale2.domain(yScale.domain());
 
             /*
+            focuspathgrp.select('path')
+                .remove()
+
             focuspathgrp.append("path")
                 .datum(data)
                 .attr("class", "area")
                 .attr("d", area);
             */
+
+            /*
+            focuspathgrp.append("path")
+                .datum(data)
+                .attr("class", "area")
+                .attr("d", area);
+            */
+            //focus.select(".area").attr("d", area);
 
             //Update all focus data points:
             focuscircgrp.selectAll(".dot")
@@ -418,6 +430,14 @@ function updateTimePlot(param) {
                 .transition()
                 .duration(1000);
 
+            contextpathgrp.select("path")
+                .remove()
+            
+            contextpathgrp
+                .append('path')
+                .datum(data)
+                .attr("class", "area")
+                .attr("d", area2);
 
             //Update all focus data points:
             contextcircgrp.selectAll(".dot")
