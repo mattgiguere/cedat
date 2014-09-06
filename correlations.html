@@ -36,8 +36,8 @@ circle {
   fill-opacity: .7;
 }
 
-circle.hidden {
-  fill: #ccc !important;
+circle.hiddensm {
+  fill: #ccc !important; 
 }
 
 .extent {
@@ -163,9 +163,6 @@ circle.hidden {
   </div>
 </div>
 
-
-
-<script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
 
 var width = 960,
@@ -218,8 +215,8 @@ d3.json("php/getCorrelations.php?objectnm=22049&hasvels=1", function(error, data
 
 
   var svg = d3.select(".d3").append("svg")
-      .attr("width", size * n + padding)
-      .attr("height", size * n + padding)
+      .attr("width", size * n + 2*padding)
+      .attr("height", size * n + 2*padding)
     .append("g")
       .attr("transform", "translate(" + padding + "," + padding / 2 + ")");
 
@@ -290,7 +287,7 @@ d3.json("php/getCorrelations.php?objectnm=22049&hasvels=1", function(error, data
   // Highlight the selected circles.
   function brushmove(p) {
     var e = brush.extent();
-    svg.selectAll("circle").classed("hidden", function(d) {
+    svg.selectAll("circle").classed("hiddensm", function(d) {
       return e[0][0] > d[p.x] || d[p.x] > e[1][0]
           || e[0][1] > d[p.y] || d[p.y] > e[1][1];
     });
@@ -298,7 +295,7 @@ d3.json("php/getCorrelations.php?objectnm=22049&hasvels=1", function(error, data
 
   // If the brush is empty, select all circles.
   function brushend() {
-    if (brush.empty()) svg.selectAll(".hidden").classed("hidden", false);
+    if (brush.empty()) svg.selectAll(".hiddensm").classed("hiddensm", false);
   }
 
   function cross(a, b) {
