@@ -35,6 +35,12 @@ path {
   fill-opacity: 1;
 }
 
+.extent {
+  fill: #000;
+  fill-opacity: .125;
+  stroke: #fff;
+}
+
 .dbcolumn {
     height: 28px;
     width: 70px; 
@@ -75,4 +81,24 @@ path {
   fill-opacity: .125;
   shape-rendering: crispEdges;
 }
+
+circle {
+  fill-opacity: .7;
+}
+
+circle.hidden {
+  fill: #ccc !important;
+}
+
+.frame {
+  fill: none;
+  stroke: #aaa;
+}
+
+.extent {
+  fill: #000;
+  fill-opacity: .125;
+  stroke: #fff;
+}
+
 
