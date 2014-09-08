@@ -3,10 +3,14 @@
     $pltpar = $_GET['param'];
     $sqltblnm = $_GET['tablenm'];
 
+    //echo gethostname();
+    //echo get_current_user();
+    $currentUser = get_current_user();
+
     if (gethostname() == 'aramis.astro.yale.edu') {
         $afspath = "/mg/AeroFS/";    
     } else {
-        $afspath = "/Users/matt/AeroFS/";
+        $afspath = "/Users/" . $currentUser . "/AeroFS/";
     }
     
     //  
