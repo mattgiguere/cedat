@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html ng-app="cedat">
 <meta charset="utf-8">
 <head>
 <title>Observation Overview</title>
@@ -8,12 +9,15 @@
 <link rel='stylesheet' type='text/css' href='css/stylesheet.css'/>
 <!-- load the d3.js library -->    
 <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="js/d3.geo.projection.min.js"></script>
 <!-- load jquery -->
 <script type='text/javascript' src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type='text/javascript' src='js/script.js'></script>
-
+<!-- load angular -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+<script type='text/javascript' src='js/overviewapp.js'></script>
 </head>
-<body>
+<body ng-controller='OvController as ov'>
 
 <!-- BEGIN Bootstrap navbar -->
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -66,7 +70,7 @@
             <div id='newdata'></div>
 -->
 
-          <h2 class="sub-header">Observation Log</h2>
+          <h2 class="sub-header">Observation Log for {{ov.datetime}}</h2>
           <div class="table-responsive">
           <div id='table-of-observations'>
           </div>
