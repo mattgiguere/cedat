@@ -1,0 +1,53 @@
+svg {              border: 1px solid white; float: left;                 }
+
+circle {           fill-opacity: 0.8;                                    }
+  
+circle.mouseover { 
+  stroke-width: 20; stroke: green;                      
+}
+
+tr.mouseover, td.mouseover {
+     background-color: green; color: white;  
+   }
+
+td, th {
+   width: 110px; text-align: center;                     
+}
+
+th:last-child {
+    width: 120px;                                         
+}
+thead, thead tr {
+  display: block;                                       
+}
+
+tbody {
+            display: block; height: 400px; overflow: auto;        
+          }
+
+.background {
+      fill: #a4bac7;                                        
+    }
+
+.foreground {
+      fill: none; stroke: #333; stroke-width: 1.5px;        
+    }
+
+:invalid {
+         background: pink                                      
+}
+
+/*div {              float: left; width:45px; margin-top:40px;             }
+*/
+
+div>svg {
+          cursor: pointer                                       
+}
+
+.graticule {
+       fill: none; stroke: #fff; stroke-width: .5px;         
+}
+
+.graticule :nth-child(2n) {
+ stroke-dasharray: 2,2;                       
+}

@@ -25,11 +25,11 @@ function mouserange(d,i){
     filter2.attr('class','mouseover')
 }
 
-var table = d3.select("aside").append("table"),
+var table = d3.select(".aside").append("table"),
 thead = table.append("thead"),//.append("tr"),
     tbody = table.append("tbody");
 
-var width = 900, 
+var width = 950, 
     height = 450;
 
 var projection = d3.geo.interrupt(d3.geo.orthographic.raw)
@@ -41,7 +41,7 @@ var projection = d3.geo.interrupt(d3.geo.orthographic.raw)
         [[   0,   0], [  90, -90], [ 180,   0]]
     ]])
     .rotate([90, 0, 90])
-    .scale(height/2)
+    .scale(height/2.1)
     .translate([width / 2, height / 2])
     .precision(.1);
 
