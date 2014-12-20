@@ -92,7 +92,7 @@ var color = d3.scale.linear()
 var q=40;   
 var step=0.125;
 var legdata=[-0.25, 0.00, 0.25, 0.50, 0.75, 1.00, 1.25, 1.50];
-var legend =d3.select('starmap').selectAll('svg')
+var legend =d3.select('.starmap').selectAll('svg')
     .data(legdata)
     .enter()
     .append('svg')
@@ -101,4 +101,12 @@ var legend =d3.select('starmap').selectAll('svg')
     .style('background-color',function(d){return color(d)})
     .on('mouseover', mouserange)
     .on('mouseout', mouseout)
+
+legend.append('text')
+    .text(function (d){return d})
+    .attr('x',20)
+    .attr('y',26)
+    .attr('text-anchor','middle')
+    .attr('fill','white')
+    .attr('stroke','none')
 
