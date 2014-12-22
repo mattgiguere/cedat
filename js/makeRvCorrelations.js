@@ -146,8 +146,10 @@ function updateTimePlot(param) {
     d3.json("php/getRVCorrelations.php?param="+param+"&tablenm="+tblnm+"&objectnm="+objectNm, function(error, data) {
         if (error) {
             console.log("There was an error loading the JSON blob.");
-            console.log("The parameter passed to getNewData.php was:");
+            console.log("The parameter passed to getRVCorrelations.php was:");
             console.log(param);
+            console.log("The tblnm was:");
+            console.log(tblnm);
             console.log(error);
         } else {
 
