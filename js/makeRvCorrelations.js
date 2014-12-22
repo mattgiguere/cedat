@@ -74,6 +74,9 @@ thead.append("th").text("Observation Name");
 thead.append("th").text("Object Name");
 thead.append("th").text("Exposure Time");
 thead.append("th").text("SNR");
+
+//This last column changes when new variables
+//are plotted against the RVs
 var newcolhead = thead.append("th").text('Zenith Distance');
 
 var tbody = table.append('tbody');
@@ -191,7 +194,7 @@ function updateTimePlot(param) {
 
             //Update the columns:
             var tds = trs.selectAll('td')
-                        .data(function(d) { return [d.obnm, d.objectnm, d.date, d3.round(d.ydata,2)];});
+                        .data(function(d) { return [d.obnm, d.objectnm, d3.round(d.exptime, 2), d3.round(d.snr, 2), d3.round(d.xdata,2)];});
 
             //remove old columns:
             tds.exit().remove();
