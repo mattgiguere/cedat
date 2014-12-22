@@ -57,6 +57,12 @@ function determineTable(par) {
         case 'obs_dec':
             return 'observations';
             break;
+        case 'obs_ra_decdeg':
+            return 'observations';
+            break;
+        case 'obs_dec_decdeg':
+            return 'observations';
+            break;
         case 'alt':
             return 'observations';
             break;
