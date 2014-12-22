@@ -30,6 +30,15 @@ var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.%L").parse;
 var xScale = d3.scale.linear().range([0, width]);
 var yScale = d3.scale.linear().range([height - fpad*height, fpad*height]);
 
+//add tool-tip:
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<p><strong>Object:</strong> <span style='color:#428BCA'>" + d.objectnm + "</span></p>" +
+            "<p><strong>Obnm:</strong> <span style='color:#428BCA'>" + d.obnm + "</span></p>";
+  })
+
 /*Add the svg canvas to the "d3" class div on the page.
 The "d3" div is just a marker location so that I could
 put the plot where I wanted it within the HTML.*/
@@ -41,6 +50,8 @@ var svg = d3.select(".d3")
     .attr("transform", 
           "translate(" + margin.left + "," + margin.top + ")");
 
+svg.call(tip);
+
 // Define the axes
 var xAxis = d3.svg.axis()
                 .scale(xScale)
@@ -51,6 +62,7 @@ var yAxis = d3.svg.axis()
                 .scale(yScale)
                 .orient("left")
                 .ticks(5);
+
 
 //add observations to table:
 var table = d3.select("#table-of-observations")
@@ -133,6 +145,8 @@ function makeInitTimeSeriesPlot() {
                 .attr('r', 3.5)
                 .attr('cx', function(d) { return xScale(d.xdata); })
                 .attr('cy', function(d) { return yScale(d.ydata); })
+                .on('mouseover', tip.show)
+                .on('mouseout', tip.hide)
 
             addAxes();
 
