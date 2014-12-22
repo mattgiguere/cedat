@@ -59,13 +59,13 @@
 
     if ($sqltblnm =='observations') {
         $myquery = "
-    SELECT o.date_obs as date, v.mnvel as ydata, o." . $pltpar . " as xdata, o.obnm as obnm, o.object as objectnm, sqrt(v.cts) as snr, o.exptime as exptime, o.zd as zd FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='" . $objectnm . "' AND o.date_obs != 'date-obs' AND EXTRACT(YEAR FROM date_obs)=2014 AND EXTRACT(MONTH FROM date_obs)>8 AND v.mnvel IS NOT NULL ORDER BY xdata ASC;
+    SELECT o.date_obs as date, v.mnvel as ydata, o." . $pltpar . " as xdata, o.obnm as obnm, o.object as objectnm, sqrt(v.cts) as snr, o.exptime as exptime, o.zd as zd FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='" . $objectnm . "' AND o.date_obs != 'date-obs' AND EXTRACT(YEAR FROM date_obs)=2014 AND EXTRACT(MONTH FROM date_obs)>6 AND v.mnvel IS NOT NULL ORDER BY xdata ASC;
     ";   
     }
 
     if ($sqltblnm =='velocities') {
         $myquery = "
-    SELECT o.date_obs as date, v.mnvel as ydata, v." . $pltpar . " as xdata, o.obnm as obnm, o.object as objectnm, sqrt(v.cts) as snr, o.exptime as exptime, o.zd as zd FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='" . $objectnm . "' AND o.date_obs != 'date-obs' AND EXTRACT(YEAR FROM date_obs)=2014 AND EXTRACT(MONTH FROM date_obs)>8 AND v.mnvel IS NOT NULL ORDER BY xdata ASC;
+    SELECT o.date_obs as date, v.mnvel as ydata, v." . $pltpar . " as xdata, o.obnm as obnm, o.object as objectnm, sqrt(v.cts) as snr, o.exptime as exptime, o.zd as zd FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='" . $objectnm . "' AND o.date_obs != 'date-obs' AND EXTRACT(YEAR FROM date_obs)=2014 AND EXTRACT(MONTH FROM date_obs)>6 AND v.mnvel IS NOT NULL ORDER BY xdata ASC;
     ";   
     }
     
