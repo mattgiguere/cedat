@@ -42,9 +42,9 @@
 
     $whereclause = 'WHERE ';
 
-    $myquery = "
-    SELECT o.obs_ra_decdeg, o.obs_dec_decdeg FROM observations o WHERE o.date_obs>" . $mindate . " AND o.date_obs < " . $maxdate . " ORDER BY o.date_obs DESC;
-    ";   
+    $myquery = "SELECT obnm, object as objectnm, imagetyp, date_obs, obs_ra_decdeg, obs_dec_decdeg FROM observations WHERE date_obs BETWEEN '" . $mindate . "T13:00:00' AND '" . $maxdate . "T13:00:00' AND imagetyp='object' ORDER BY date_obs ASC;";   
+
+
 
     $query = mysql_query($myquery);
     

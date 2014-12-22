@@ -84,10 +84,6 @@ var tbody = table.append('tbody');
 /* ***End D3 Global Variables*** */
 function makeInitTimeSeriesPlot() {
 
-    //A little jQuery to print the data
-    //for debugging purposes:
-    //$('#newdata').append('<p>' + param + '</p>');
-
     // Define the line
     var valueline = d3.svg.line()
     //    .interpolate("basis")

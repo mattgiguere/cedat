@@ -1,4 +1,6 @@
 //A script to produce an aitoff projection with the CHIRON data:
+var mindate = '2014-12-11';
+var maxdate = '2014-12-12';
 
 //first define the mousing functions:
 function mouseover(d,i){
@@ -25,9 +27,21 @@ function mouserange(d,i){
     filter2.attr('class','mouseover')
 }
 
-var table = d3.select(".aside").append("table"),
-thead = table.append("thead"),//.append("tr"),
-    tbody = table.append("tbody");
+//add observations to table:
+var table = d3.select("#table-of-observations")
+    .append('table')
+    .attr("class", "table table-striped");
+
+var thead = table.append("thead");
+thead.append("th").text("Observation Name");
+thead.append("th").text("Object Name");
+thead.append("th").text("Image Type");
+thead.append("th").text("RA");
+thead.append("th").text("Dec");
+
+thead.append("th").text("Observation Date");
+
+tbody = table.append("tbody");
 
 var width = 950, 
     height = 450;
@@ -46,12 +60,23 @@ var projection = d3.geo.interrupt(d3.geo.orthographic.raw)
     .precision(.1);
 
 
+//add tool-tip:
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<p><strong>Object:</strong> <span style='color:#428BCA'>" + d.objectnm + "</span></p>" +
+            "<p><strong>Obnm:</strong> <span style='color:#428BCA'>" + d.obnm + "</span></p>";
+  })
+
 var path = d3.geo.path()
     .projection(projection);
 
 var svg = d3.select(".starmap").append("svg")
     .attr("width", width)
     .attr("height", height);
+
+svg.call(tip);
 
 var defs = svg.append("defs");
 
@@ -110,3 +135,37 @@ legend.append('text')
     .attr('fill','white')
     .attr('stroke','none')
 
+d3.json("php/getCoords.php?mindate=2014-12-11&maxdate=2014-12-12", function(error, data) {
+    if (error) {
+        console.log("There was an error loading the JSON blob.");
+        console.log(error);
+    } else {
+
+       //create the rows that have all the 
+        //data in __data__:
+        var trs = tbody.selectAll('tr')
+            .data(data)
+            .enter()
+            .append('tr');
+
+        //Insert the columns into the table:
+        var tds = trs.selectAll('td')
+                    .data(function(d) { return [d.obnm, d.objectnm, d.imagetyp, d3.round(d.obs_ra_decdeg, 3), d3.round(d.obs_dec_decdeg, 3), d.date_obs];})
+                    .enter()
+                    .append('td')
+                    .text(function(d) {return d;});
+
+        // add circles to svg
+        svg.selectAll(".dot")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("class", "dot")
+            .attr("cx", function (d) { return projection([d.obs_ra_decdeg, d.obs_dec_decdeg])[0]; })
+            .attr("cy", function (d) { return projection([d.obs_ra_decdeg, d.obs_dec_decdeg])[1]; })
+            .attr("r", 3.5)
+            .on('mouseover', tip.show)
+            .on('mouseout', tip.hide)
+
+    }
+});
