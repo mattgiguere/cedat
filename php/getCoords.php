@@ -1,7 +1,7 @@
 <?php
     //$afspath = $_SERVER["AeroFSdir"];
-    $pltpar = $_GET['param'];
-    $sqltblnm = $_GET['tablenm'];
+    $mindate = $_GET['mindate'];
+    $maxdate = $_GET['maxdate'];
 
     //echo gethostname();
     //echo get_current_user();
@@ -42,27 +42,9 @@
 
     $whereclause = 'WHERE ';
 
-    if (isset($_GET['objectnm'])){
-        $objectnm = $_GET['objectnm'];
-        $whereclause += 'o.object = ' . $objectnm;
-    }
-
-    if ($sqltblnm =='observations') {
-        $myquery = "
-    SELECT o.date_obs as date, o." . $pltpar . " as ydata, o.obnm as obnm, o.object as objectnm, sqrt(v.cts) as snr, o.exptime as exptime, o.zd as zd FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='" . $objectnm . "' AND o.date_obs != 'date-obs' AND v.mnvel IS NOT NULL ORDER BY o.date_obs DESC;
+    $myquery = "
+    SELECT o.obs_ra_decdeg, o.obs_dec_decdeg FROM observations o WHERE o.date_obs>" . $mindate . " AND o.date_obs < " . $maxdate . " ORDER BY o.date_obs DESC;
     ";   
-    }
-
-    if ($sqltblnm =='velocities') {
-        $myquery = "
-    SELECT o.date_obs as date, v." . $pltpar . " as ydata, o.obnm as obnm, o.object as objectnm, sqrt(v.cts) as snr, o.exptime as exptime, o.zd as zd FROM velocities v INNER JOIN observations o ON  o.observation_id=v.observation_id WHERE o.object='" . $objectnm . "' AND o.date_obs != 'date-obs' AND v.mnvel IS NOT NULL ORDER BY o.date_obs ASC;
-    ";   
-    }
-    
-    if (($sqltblnm !='observations') and ($sqltblnm !='velocities')) {
-        $myquery = "
-        SELECT o.date_obs as date, ". $sqltblnm . "." . $pltpar . " as ydata, o.obnm as obnm, o.object as objectnm FROM observations o INNER JOIN " . $sqltblnm . " ON " . $sqltblnm.  ".observation_id=o.observation_id WHERE o.object='" . $objectnm . "' AND ". $sqltblnm . "." . $pltpar . " IS NOT NULL AND o.date_obs != 'date-obs' ORDER BY o.date_obs DESC;";   
-    }
 
     $query = mysql_query($myquery);
     
