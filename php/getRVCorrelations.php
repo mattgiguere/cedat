@@ -71,7 +71,7 @@
     
     if (($sqltblnm !='observations') and ($sqltblnm !='velocities')) {
         $myquery = "
-        SELECT o.date_obs as date, ". $sqltblnm . "." . $pltpar . " as ydata, o.obnm as obnm, o.object as objectnm FROM observations o INNER JOIN " . $sqltblnm . " ON " . $sqltblnm.  ".observation_id=o.observation_id WHERE o.object='" . $objectnm . "' AND ". $sqltblnm . "." . $pltpar . " IS NOT NULL AND o.date_obs != 'date-obs' ORDER BY o.date_obs DESC;";   
+        SELECT o.date_obs as date, v.mnvel as ydata, ". $sqltblnm . "." . $pltpar . " as xdata, o.obnm as obnm, o.object as objectnm FROM observations o INNER JOIN velocities v ON v.observation_id=o.observation_id INNER JOIN " . $sqltblnm . " ON " . $sqltblnm.  ".observation_id=o.observation_id WHERE o.object='" . $objectnm . "' AND ". $sqltblnm . "." . $pltpar . " IS NOT NULL AND o.date_obs != 'date-obs' AND EXTRACT(YEAR FROM date_obs)=2014 AND EXTRACT(MONTH FROM date_obs)>6 AND v.mnvel IS NOT NULL ORDER BY xdata ASC;";   
     }
 
     $query = mysql_query($myquery);
