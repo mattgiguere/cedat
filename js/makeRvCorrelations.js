@@ -27,7 +27,7 @@ var fpad = padding/100.
 var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.%L").parse;
 
 // Set the ranges
-var xScale = d3.time.scale().range([fpad*width, width - fpad*width]);
+var xScale = d3.scale.linear().range([0, width]);
 var yScale = d3.scale.linear().range([height - fpad*height, fpad*height]);
 
 /*Add the svg canvas to the "d3" class div on the page.
@@ -60,8 +60,9 @@ var table = d3.select("#table-of-observations")
 var thead = table.append("thead");
 thead.append("th").text("Observation Name");
 thead.append("th").text("Object Name");
-thead.append("th").text("Date");
-var newcolhead = thead.append("th").text('mnvel');
+thead.append("th").text("Exposure Time");
+thead.append("th").text("SNR");
+var newcolhead = thead.append("th").text('Zenith Distance');
 
 var tbody = table.append('tbody');
 
@@ -102,7 +103,7 @@ function makeInitTimeSeriesPlot() {
 
 
             data.forEach(function(d) {
-                d.date = parseDate(d.date);
+                d.xdata = +d.xdata;
                 d.ydata = +d.ydata;
             });
 
@@ -113,7 +114,7 @@ function makeInitTimeSeriesPlot() {
                 .enter()
                 .append('tr');
 
-            //Insert the columns:
+            //Insert the columns into the table:
             var tds = trs.selectAll('td')
                         .data(function(d) { return [d.obnm, d.objectnm, d3.round(d.exptime, 2), d3.round(d.snr, 2), d.zd];})
                         .enter()
@@ -121,9 +122,8 @@ function makeInitTimeSeriesPlot() {
                         .text(function(d) {return d;});
 
             // Scale the range of the data
-            xScale.domain(d3.extent(data, function(d) { return d.date; }));
-            yScale.domain([d3.min(data, function(d) { return d.ydata; }), 
-                d3.max(data, function(d) { return d.ydata; })]);
+            xScale.domain(d3.extent(data, function(d) { return d.xdata; })).nice();
+            yScale.domain(d3.extent(data, function(d) { return d.ydata; })).nice();
 
             svg.selectAll(".dot")
                 .data(data)
@@ -131,7 +131,7 @@ function makeInitTimeSeriesPlot() {
                 .append("circle")
                 .attr("class", "dot")
                 .attr('r', 3.5)
-                .attr('cx', function(d) { return xScale(d.date); })
+                .attr('cx', function(d) { return xScale(d.xdata); })
                 .attr('cy', function(d) { return yScale(d.ydata); })
 
             addAxes();
@@ -154,6 +154,7 @@ function updateTimePlot(param) {
 
             data.forEach(function(d) {
                 d.date = parseDate(d.date);
+                d.xdata = +d.xdata;
                 d.ydata = +d.ydata;
             });
 
@@ -185,16 +186,15 @@ function updateTimePlot(param) {
             tds.text(function(d) { return d;})
 
             // Scale the range of the data
-            xScale.domain(d3.extent(data, function(d) { return d.date; }));
-            yScale.domain([d3.min(data, function(d) { return d.ydata; }), 
-                d3.max(data, function(d) { return d.ydata; })]);
+            xScale.domain(d3.extent(data, function(d) { return d.xdata; })).nice();
+            yScale.domain(d3.extent(data, function(d) { return d.ydata; })).nice();
 
             //Update all data points:
             var dots = svg.selectAll(".dot")
                 .data(data)
                 .transition()
                 .duration(1000)
-                .attr('cx', function(d) { return xScale(d.date); })
+                .attr('cx', function(d) { return xScale(d.xdata); })
                 .attr('cy', function(d) { return yScale(d.ydata); })
 
             svg.selectAll(".dot")
@@ -203,7 +203,7 @@ function updateTimePlot(param) {
                 .append("circle")
                 .attr("class", "dot")
                 .attr('r', 3.5)
-                .attr('cx', function(d) { return xScale(d.date); })
+                .attr('cx', function(d) { return xScale(d.xdata); })
                 .attr('cy', function(d) { return yScale(d.ydata); })
 
             svg.selectAll(".dot")
@@ -225,7 +225,7 @@ function updateTimePlot(param) {
                 .call(yAxis);
 
             //Update X Axis Label:
-            svg.select(".y.label")
+            svg.select(".x.label")
                 .transition()
                 .duration(1000)
                 .text(param);
@@ -249,7 +249,7 @@ function addAxes() {
         .attr("x", (width - fpad*width))
         .attr("y", -6)
         .style("text-anchor", "end")            
-        .text('Observation Date');
+        .text(param);
 
 
     // Add the Y Axis
