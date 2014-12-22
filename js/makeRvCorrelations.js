@@ -94,7 +94,7 @@ function makeInitTimeSeriesPlot() {
     5. path
     6. polygon
     */
-    d3.json("php/getNewData.php?param=mnvel&tablenm=velocities&objectnm="+objectNm, function(error, data) {
+    d3.json("php/getRVCorrelations.php?param=mnvel&tablenm=velocities&objectnm="+objectNm, function(error, data) {
         if (error) {
             console.log("There was an error loading the JSON blob.");
             console.log(error);
@@ -143,7 +143,7 @@ function makeInitTimeSeriesPlot() {
 
 function updateTimePlot(param) {
     var tblnm = determineTable(param);
-    d3.json("php/getNewData.php?param="+param+"&tablenm="+tblnm+"&objectnm="+objectNm, function(error, data) {
+    d3.json("php/getRVCorrelations.php?param="+param+"&tablenm="+tblnm+"&objectnm="+objectNm, function(error, data) {
         if (error) {
             console.log("There was an error loading the JSON blob.");
             console.log("The parameter passed to getNewData.php was:");
