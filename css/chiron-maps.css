@@ -26,11 +26,13 @@ tbody {
           }
 
 .background {
-      fill: #a4bac7;                                        
+      fill: #cde3fa;                                        
     }
 
 .foreground {
-      fill: none; stroke: #333; stroke-width: 1.5px;        
+      fill: none; 
+      stroke: #888; 
+      stroke-width: 1.5px;        
     }
 
 :invalid {
