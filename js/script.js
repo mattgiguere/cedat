@@ -5,10 +5,26 @@ $(document).ready(function() {
         param = $(this).text();
         updateTimePlot(param);
     });
+    $('#mindateinp').keydown(function (e){
+        if(e.keyCode == 13){
+            var input = document.getElementById('#mindateinp')
+            mindate = input.value;
+            console.log("mindate is");
+            console.log(mindate);
+        }
+    });
+    $('#maxdateinp').keydown(function (e){
+        if(e.keyCode == 13){
+            var input = document.getElementById('#maxdateinp')
+            maxdate = input.value;
+            console.log("maxdate is");
+            console.log(maxdate);
+        }
+    });
     $('.objectnames').click(function() {
         objectNm = $(this).text();
         updateTimePlot(param);
-    })
+    });
     $('.dbcolumn').mouseenter(function() {
         $(this).fadeTo('fast', 1.0);
     });

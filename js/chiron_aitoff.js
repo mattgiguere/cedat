@@ -28,20 +28,22 @@ function mouserange(d,i){
 }
 
 //add observations to table:
+var columns = ["Observation Name", "Object Name", "Image Type", "RA", "Dec", "Observation Date"];
 var table = d3.select("#table-of-observations")
     .append('table')
     .attr("class", "table table-striped");
 
 var thead = table.append("thead");
-thead.append("th").text("Observation Name");
-thead.append("th").text("Object Name");
-thead.append("th").text("Image Type");
-thead.append("th").text("RA");
-thead.append("th").text("Dec");
+var tbody = table.append("tbody");
 
-thead.append("th").text("Observation Date");
+//append the header row:
+thead.append("tr")
+    .selectAll("th")
+    .data(columns)
+    .enter()
+    .append("th")
+        .text(function(column) { return column; });
 
-tbody = table.append("tbody");
 
 var width = 950, 
     height = 450;
@@ -56,6 +58,11 @@ var projection = d3.geo.interrupt(d3.geo.orthographic.raw)
     ]])
     .rotate([90, 0, 90])
     .scale(height/2.1)
+    .translate([width / 2, height / 2])
+    .precision(.1);
+
+var projection = d3.geo.aitoff()
+    .scale(height/4.1)
     .translate([width / 2, height / 2])
     .precision(.1);
 
@@ -107,33 +114,6 @@ svg.append("g")
 svg.append("use")
     .attr("class", "foreground")
     .attr("xlink:href", "#sphere");
-
-/// color and radius depend on data
-var color = d3.scale.linear()
-    .domain([-0.5,1.5])
-    .range(['rgb(0,0,255)', 'rgb(255,0,0)']);
-
-//////////// LEGEND //////////////
-var q=40;   
-var step=0.125;
-var legdata=[-0.25, 0.00, 0.25, 0.50, 0.75, 1.00, 1.25, 1.50];
-var legend =d3.select('.starmap').selectAll('svg')
-    .data(legdata)
-    .enter()
-    .append('svg')
-    .attr('height',q)
-    .attr('width',q)
-    .style('background-color',function(d){return color(d)})
-    .on('mouseover', mouserange)
-    .on('mouseout', mouseout)
-
-legend.append('text')
-    .text(function (d){return d})
-    .attr('x',20)
-    .attr('y',26)
-    .attr('text-anchor','middle')
-    .attr('fill','white')
-    .attr('stroke','none')
 
 d3.json("php/getCoords.php?mindate=2014-12-11&maxdate=2014-12-12", function(error, data) {
     if (error) {
