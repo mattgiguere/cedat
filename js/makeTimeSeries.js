@@ -57,7 +57,9 @@ var tip = d3.tip()
   .offset([-10, 0])
   .html(function(d) {
     return "<p><strong>Object:</strong> <span style='color:#428BCA'>" + d.objectnm + "</span></p>" +
-            "<p><strong>Obnm:</strong> <span style='color:#428BCA'>" + d.obnm + "</span></p>";
+            "<p><strong>Obnm:</strong> <span style='color:#428BCA'>" + d.obnm + "</span></p>" + 
+            "<p><strong>RV:</strong> <span style='color:#428BCA'>" + d.ydata + "</span></p>" +
+            "<p><strong>SNR:</strong> <span style='color:#428BCA'>" + Math.round(d.snr*10)/10 + "</span></p>";
   })
 
 // Define the axes
