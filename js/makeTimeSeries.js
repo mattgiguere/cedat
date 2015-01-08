@@ -16,9 +16,8 @@ console.log(objectNm);
 d3.select(window).on('resize', resize);
 
 function resize() {
-var width = parseInt(d3.select(".d3").style('width'), 10) - margin.left - margin.right;
-
-makeInitTimeSeriesPlot()
+    var width = parseInt(d3.select(".d3").style('width'), 10) - margin.left - margin.right;
+    makeInitTimeSeriesPlot()
 }//end of resize()
 
 /*     ***Begin D3 Global Variables***
@@ -51,6 +50,15 @@ var xScale = d3.time.scale().range([0, width]);
 var xScale2 = d3.time.scale().range([0, width]);
 var yScale = d3.scale.linear().range([height, 0]);
 var yScale2 = d3.scale.linear().range([height2, 0]);
+
+//add tool-tip:
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<p><strong>Object:</strong> <span style='color:#428BCA'>" + d.objectnm + "</span></p>" +
+            "<p><strong>Obnm:</strong> <span style='color:#428BCA'>" + d.obnm + "</span></p>";
+  })
 
 // Define the axes
 var xAxis = d3.svg.axis()
@@ -92,6 +100,8 @@ var svg = d3.select(".d3")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
+
+svg.call(tip);
 
 svg.append("defs").append("clipPath")
     .attr("id", "clip")
@@ -166,7 +176,9 @@ function makeInitTimeSeriesPlot() {
                 .attr("class", "dot")
                 .attr('r', 3.5)
                 .attr('cx', function(d) { return xScale(d.date); })
-                .attr('cy', function(d) { return yScale(d.ydata); });
+                .attr('cy', function(d) { return yScale(d.ydata); })
+                .on('mouseover', tip.show)
+                .on('mouseout', tip.hide);
 
             var xAxisSVG = focus.append("g")
                 .attr("class", "x axis")
