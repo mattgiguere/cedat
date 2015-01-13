@@ -169,6 +169,14 @@ function determineTable(par) {
     }
 }
 
+var tables = {
+    "propid" : { "table" : "observations", "name" : "Proposal ID"},
+    "rexptime" : { "table" : "observations", "name" : "Requested Exposure Time"},
+    "exptime" : { "table" : "observations", "name" : "Exposure Time"},
+    "texptime" : { "table" : "observations", "name" : "Requested EXPM Exposure Time"},
+}
+
+
 /*
         $.ajax({
             type: "POST", 
