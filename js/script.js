@@ -170,12 +170,16 @@ function determineTable(par) {
 }
 
 var tables = {
-    "propid" : { "table" : "observations", "name" : "Proposal ID"},
-    "rexptime" : { "table" : "observations", "name" : "Requested Exposure Time"},
-    "exptime" : { "table" : "observations", "name" : "Exposure Time"},
-    "texptime" : { "table" : "observations", "name" : "Requested EXPM Exposure Time"},
+    "propid" : { "table" : "observations", "name" : "Proposal ID", "description": "Proposal ID"},
+    "rexptime" : { "table" : "observations", "name" : "Requested Time", "description": "requested exposure time (seconds)"},
+    "exptime" : { "table" : "observations", "name" : "Exposure Time", 'description': "final exposure time in seconds"},
+    "texptime" : { "table" : "observations", "name" : "ExpMtr Time", 'description': 'requested exposure meter time (seconds)'},
+    "darktime" : { "table" : "observations", "name" : "Dark Time", 'description': 'dark current time (seconds)'},
+    "pixtime" : { "table" : "observations", "name" : "Pixel Time", 'description': 'pixel time (microseconds)'},
+    "deckpos" : { "table" : "observations", "name" : "Decker Position", 'description': 'decker position (mm)'},
+    "focus" : { "table" : "observations", "name" : "Focus", 'description': 'focus position (mm)'},
+    "maxexp" : { "table" : "observations", "name" : "", 'description': 'maximum exposure meter exposure time (milliseconds)'},
 }
-
 
 /*
         $.ajax({
