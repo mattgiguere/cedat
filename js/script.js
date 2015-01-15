@@ -178,7 +178,14 @@ var tables = {
     "pixtime" : { "table" : "observations", "name" : "Pixel Time", 'description': 'pixel time (microseconds)'},
     "deckpos" : { "table" : "observations", "name" : "Decker Position", 'description': 'decker position (mm)'},
     "focus" : { "table" : "observations", "name" : "Focus", 'description': 'focus position (mm)'},
-    "maxexp" : { "table" : "observations", "name" : "", 'description': 'maximum exposure meter exposure time (milliseconds)'},
+    "maxexp" : { "table" : "observations", "name" : "Max Exposure", 'description': 'maximum exposure meter exposure time (milliseconds)'},
+    "obs_ra_decdeg" : { "table" : "observations", "name" : "Right Ascension", 'description': 'Right Ascension in Decimal Degrees'},
+    "obs_dec_decdeg" : { "table" : "observations", "name" : "Declination", 'description': 'Declination in Decimal Degrees'},
+    "alt" : { "table" : "observations", "name" : "Altitude", 'description': 'Altitude (deg)'},
+    "ha" : { "table" : "observations", "name" : "Hour Angle", 'description': 'Hour angle'},
+    "st" : { "table" : "observations", "name" : "Sidereal Time", 'description': 'Sidereal time'},
+    "zd" : { "table" : "observations", "name" : "Zenith Distance", 'description': 'Zenith distance'},
+    "airmass" : { "table" : "observations", "name" : "Airmass", 'description': 'Airmass'},
 }
 
 /*
