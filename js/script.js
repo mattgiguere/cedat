@@ -186,7 +186,18 @@ var tables = {
     "st" : { "table" : "observations", "name" : "Sidereal Time", 'description': 'Sidereal time'},
     "zd" : { "table" : "observations", "name" : "Zenith Distance", 'description': 'Zenith distance'},
     "airmass" : { "table" : "observations", "name" : "Airmass", 'description': 'Airmass'},
+    "mnvel" : { "table" : "velocities", "name" : "RV [m/s]", 'description': "Mean RV measurement [m/s]"},
+    "mdvel" : { "table" : "velocities", "name" : "Median RV [m/s]", 'description': "Median RV measurement [m/s]"},
+    "bc" : { "table" : "velocities", "name" : "Barycentric Correction [m/s]", 'description': "Barycentric correction [m/s]"},
+    "z" : { "table" : "velocities", "name" : "Doppler Shift", 'description': "Doppler shift z"},
+    "gain" : { "table" : "velocities", "name" : "Gain", 'description': "Gain"},
+    "cts" : { "table" : "velocities", "name" : "Counts", 'description': "Counts"},
+    "errvel" : { "table" : "velocities", "name" : "Uncertainty [m/s]", 'description': "Uncertainty [m/s]"},
+    "mdchi" : { "table" : "velocities", "name" : "Median Chi Squared", 'description': "Median chi squared"},
+    "nchunk" : { "table" : "velocities", "name" : "N Chunks", 'description': "Number of Chunks"},
+    "" : { "table" : "velocities", "name" : "", 'description': ""},
 }
+
 
 /*
         $.ajax({
