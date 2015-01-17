@@ -194,59 +194,21 @@ var tables = {
     "cts" : { "table" : "velocities", "name" : "Counts", 'description': "Counts"},
     "errvel" : { "table" : "velocities", "name" : "Uncertainty [m/s]", 'description': "Uncertainty [m/s]"},
     "mdchi" : { "table" : "velocities", "name" : "Median Chi Squared", 'description': "Median chi squared"},
-    "nchunk" : { "table" : "velocities", "name" : "N Chunks", 'description': "Number of Chunks"},
-    "ccdtemp" : { "table" : "environment", "name" : "CCD Temp", 'description': "CCD Temperature"},
-    "" : { "table" : "environment", "name" : "", 'description': ""},
-    "" : { "table" : "environment", "name" : "", 'description': ""},
-    "" : { "table" : "environment", "name" : "", 'description': ""},
-    "" : { "table" : "environment", "name" : "", 'description': ""},
-    "" : { "table" : "environment", "name" : "", 'description': ""},
-    "" : { "table" : "environment", "name" : "", 'description': ""},
-    "" : { "table" : "environment", "name" : "", 'description': ""},
-}
-
-/* ENVIRONMENT TABLE */
-
-        case 'ccdtemp':
-            return 'environment';
-            break;
-        case 'necktemp':
-            return 'environment';
-            break;
-        case 'tempgrat':
-            return 'environment';
-            break;
-        case 'temptlow':
-            return 'environment';
-            break;
-        case 'temptcen':
-            return 'environment';
-            break;
-        case 'tempstru':
-            return 'environment';
-            break;
-        case 'tempencl':
-            return 'environment';
-            break;
-        case 'tempcoud':
-            return 'environment';
-            break;
-        case 'tempinst':
-            return 'environment';
-            break;
-        case 'tempiodin':
-            return 'environment';
-            break;
-        case 'dewpress':
-            return 'environment';
-            break;
-        case 'echpress':
-            return 'environment';
-            break;
-        case 'baromete':
-            return 'environment';
-            break;
-    }
+    "nchunk" : { "table" : "velocities", "name" : "N Chunks", 'description': "Number of chunks"},
+    "ccdtemp" : { "table" : "environment", "name" : "CCD Temp", 'description': "CCD temperature"},
+    "necktemp" : { "table" : "environment", "name" : "Neck Temp", 'description': "Dewar neck temperature"},
+    "tempgrat" : { "table" : "environment", "name" : "Grating Temp", 'description': "Temperature near rchelle grating"},
+    "temptlow" : { "table" : "environment", "name" : "Lower Table Temp", 'description': "Temperature below the optical table"},
+    "temptcen" : { "table" : "environment", "name" : "", 'description': ""},
+    "tempstru" : { "table" : "environment", "name" : "", 'description': ""},
+    "tempencl" : { "table" : "environment", "name" : "", 'description': ""},
+    "tempcoud" : { "table" : "environment", "name" : "", 'description': ""},
+    "tempinst" : { "table" : "environment", "name" : "", 'description': ""},
+    "tempiodin" : { "table" : "environment", "name" : "", 'description': ""},
+    "dewpress" : { "table" : "environment", "name" : "", 'description': ""},
+    "echpress" : { "table" : "environment", "name" : "", 'description': ""},
+    "baromete" : { "table" : "environment", "name" : "", 'description': ""},
+    "" : { "table" : "", "name" : "", 'description': ""},
 }
 
 /*
