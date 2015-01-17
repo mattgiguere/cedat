@@ -195,9 +195,59 @@ var tables = {
     "errvel" : { "table" : "velocities", "name" : "Uncertainty [m/s]", 'description': "Uncertainty [m/s]"},
     "mdchi" : { "table" : "velocities", "name" : "Median Chi Squared", 'description': "Median chi squared"},
     "nchunk" : { "table" : "velocities", "name" : "N Chunks", 'description': "Number of Chunks"},
-    "" : { "table" : "velocities", "name" : "", 'description': ""},
+    "ccdtemp" : { "table" : "environment", "name" : "CCD Temp", 'description': "CCD Temperature"},
+    "" : { "table" : "environment", "name" : "", 'description': ""},
+    "" : { "table" : "environment", "name" : "", 'description': ""},
+    "" : { "table" : "environment", "name" : "", 'description': ""},
+    "" : { "table" : "environment", "name" : "", 'description': ""},
+    "" : { "table" : "environment", "name" : "", 'description': ""},
+    "" : { "table" : "environment", "name" : "", 'description': ""},
+    "" : { "table" : "environment", "name" : "", 'description': ""},
 }
 
+/* ENVIRONMENT TABLE */
+
+        case 'ccdtemp':
+            return 'environment';
+            break;
+        case 'necktemp':
+            return 'environment';
+            break;
+        case 'tempgrat':
+            return 'environment';
+            break;
+        case 'temptlow':
+            return 'environment';
+            break;
+        case 'temptcen':
+            return 'environment';
+            break;
+        case 'tempstru':
+            return 'environment';
+            break;
+        case 'tempencl':
+            return 'environment';
+            break;
+        case 'tempcoud':
+            return 'environment';
+            break;
+        case 'tempinst':
+            return 'environment';
+            break;
+        case 'tempiodin':
+            return 'environment';
+            break;
+        case 'dewpress':
+            return 'environment';
+            break;
+        case 'echpress':
+            return 'environment';
+            break;
+        case 'baromete':
+            return 'environment';
+            break;
+    }
+}
 
 /*
         $.ajax({
