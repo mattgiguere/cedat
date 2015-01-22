@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="cedat">
+<html data-ng-app="cedat">
 <meta charset="utf-8">
 <head>
 <title>Observation Overview</title>
@@ -67,9 +67,19 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">Overview</h1>
 
+            <!-- Min and Max Date Form -->
             <div id='daterow'>
-                <input id='mindateinp' autofocus minlength=8 maxlength=8 placeholder="min date (yyyymmdd)">
-                <input id='maxdateinp' autofocus minlength=8 maxlength=8 placeholder="max date (yyyymmdd)">
+                <form name="dateRangeForm" ng-controller="DateRangeController as dateCtrl" ng-submit="dateCtrl.changeDates(date)">
+                  <fieldset class="form-group">
+                    <input ng-model='dateCtrl.date.minDate' class='form-control' autofocus minlength=8 maxlength=8 placeholder="min date (yyyymmdd)" />
+                  </fieldset>
+                  <fieldset class="form-group">
+                    <input ng-model='dateCtrl.date.maxDate' class='form-control' autofocus minlength=8 maxlength=8 placeholder="max date (yyyymmdd)" />
+                  </fieldset>
+                  <fieldset>
+                    <input type="submit" class="btn btn-primary pull-right" value="Submit" />
+                  </fieldset>
+                </form>
             </div>
             <div class='starmap'></div>
             <!--<div class='aside'></div> -->
@@ -79,7 +89,7 @@
             <div id='newdata'></div>
 -->
           <div style="clear: both;"></div>
-          <h2 class="sub-header">Observation Log for {{ov.datetime}}</h2>
+          <h2 class="sub-header">Observation Log for {{dateCtrl.minDatetime}} to {{dateCtrl.minDatetime}}</h2>
           <div class="table-responsive" id='table-of-observations' style="clear: both;"></div>
         </div>
       </div>

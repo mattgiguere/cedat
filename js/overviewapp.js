@@ -4,11 +4,10 @@
 
   app.controller('OvController', function(){
     //Get the current date:
-    this.currentdate = new Date();
+    this.currentdate = minDate
 
-    this.datetime = this.currentdate.getFullYear() + '.'
-               + (this.currentdate.getMonth()+1) + '.'
-               + this.currentdate.getDate();
+    this.minDatetime = minDatetime;
+    this.minDatetime = maxDatetime;
   });
 
   app.controller('TabController', function(){
@@ -19,9 +18,34 @@
     };
   });
 
+  app.controller('DateRangeController', function(){
+
+    this.date = {};
+
+    this.changeDates = function(date){
+      minDatetime = this.minDate;
+      maxDatetime = this.maxDate;
+      ov.minDatetime.push(this.minDate);
+      ov.maxDatetime.push(this.maxDate);
+      this.date = {};
+    };
+  });
+
   this.isSet = function(qTab){
     return this.tab === qTab;
   };
+
+var currentdate = new Date();
+var minDate = new Date();
+var maxDate = new Date();
+var minDatetime = minDate.getFullYear() + '.'
+             + (minDate.getMonth()+1) + '.'
+             + minDate.getDate();
+
+var maxDatetime = maxDate.getFullYear() + '.'
+             + (maxDate.getMonth()+1) + '.'
+             + maxDate.getDate();
+
 
 })();
 
