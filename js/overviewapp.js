@@ -25,8 +25,8 @@
     this.changeDates = function(date){
       minDatetime = this.minDate;
       maxDatetime = this.maxDate;
-      ov.minDatetime.push(this.minDate);
-      ov.maxDatetime.push(this.maxDate);
+      minDatetime.push(this.minDate);
+      maxDatetime.push(this.maxDate);
       this.date = {};
     };
   });
