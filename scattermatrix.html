@@ -198,7 +198,7 @@ d3.json("php/getCorrelations.php?objectnm=22049&hasvels=1", function(error, data
   console.log(d3.keys(data[0]));
 
   observables.forEach(function(observable) {
-    domainByObservable[observable] = d3.extent(data, function(d) { return d[observable]; });
+    domainByObservable[observable] = d3.extent(data, function(d) { return +d[observable]; });
   });
 
   console.log("domainByObservable is: ");
